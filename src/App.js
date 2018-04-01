@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { TextFormControl } from './TextFormControl.js';
-import { SubmitButton } from './SubmitButton.js';
+import { TextFormControl } from './Components/TextFormControl.js';
+import { SubmitButton } from './Components/SubmitButton.js';
+import { Table } from './Components/Table.js';
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ class App extends Component {
     this.state = {
       name: "",
       email: "",
-      username: ""
+      username: "",
+      rows: []
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -35,7 +37,14 @@ class App extends Component {
   }
 
   handleNewUserOnClick(e) {
-    console.log(this.state);
+    let currentRows = this.state.rows;
+    currentRows.push([
+      this.state.name,
+      this.state.email,
+      this.state.username
+    ]);
+
+    this.setState({rows: currentRows});
   }
 
   render() {
@@ -49,7 +58,8 @@ class App extends Component {
           <TextFormControl title="Name" onChange={this.handleNameChange} />
           <TextFormControl title="Username" onChange={this.handleUsernameChange} />
           <TextFormControl title="Email" onChange={this.handleEmailChange} />
-          <SubmitButton btnText="Show new user" onClick={this.handleNewUserOnClick} />
+          <SubmitButton btnText="Add new user" onClick={this.handleNewUserOnClick} />
+          <Table cols={["Name", "Username", "Email"]} rows={this.state.rows} />
         </div>
       </div>
     );
